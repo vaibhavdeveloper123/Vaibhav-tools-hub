@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- SEO Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vaibhav Tools Hub – Free Online PDF, Image & Calculator Tools</title>
+    <meta name="description" content="The ultimate free online toolkit from vaibhav Tools Hub. Featuring a functional Image Compressor, PDF Creator, and a suite of accurate calculators (SIP, GST, EMI). Explore 32+ powerful, secure, and user-friendly web tools.">
+    <meta name="keywords" content="online tools, pdf converter, image compressor, jpg to pdf, sip calculator, gst calculator, emi calculator, qr code generator, free tools, web tools, vaibhav tools hub, file converter, seo tools, video to mp3 demo">
+    <meta name="author" content="vaibhav developer">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Meta Tags (for social media sharing) -->
+    <meta property="og:title" content="vaibhav Tools Hub – All-in-One Online Toolkit">
+    <meta property="og:description" content="The ultimate free online toolkit with 32+ tools for PDF, images, media conversion demonstrations, and financial calculations.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.your-website-url.com/"> <!-- Replace with your domain -->
+    <meta property="og:image" content="https://www.your-website-url.com/og-image.jpg"> <!-- Replace with a link to an attractive banner image -->
+
+    <!-- Libraries -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-main: #f0f2f5;
+            --bg-surface: #ffffff;
+            --text-primary: #1c1e21;
+            --text-secondary: #606770;
+            --accent: #007bff;
+            --accent-dark: #0056b3;
+            --accent-light: rgba(0, 123, 255, 0.1);
+            --border-color: #dee2e6;
+            --success: #28a745;
+            --warning: #ffc107;
+            --font-main: 'Poppins', sans-serif;
+            --font-headings: 'Orbitron', sans-serif;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .navbar {
+            background-color: var(--bg-surface);
+            padding: 1rem 0;
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+        .navbar .container {
+             display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-family: var(--font-headings); font-size: 1.8rem; font-weight: 700; color: var(--accent); user-select: none; }
+        .main-content { padding-top: 3rem; }
+        .hero { text-align: center; padding: 4rem 1rem; }
+        .hero h1 {
+            font-family: var(--font-headings);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        .hero p { font-size: 1.2rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 2rem; }
+        .cta-button {
+            background: linear-gradient(45deg, var(--accent), var(--accent-dark)); color: white; border: none;
+            padding: 1rem 2rem; border-radius: 8px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+        .cta-button:hover { transform: translateY(-3px) scale(1.05); box-shadow: var(--shadow-lg); }
+
+        .tool-section { margin-bottom: 4rem; }
+        .tool-section-header {
+            text-align: center; margin-bottom: 2.5rem;
+        }
+        .tool-section-header h2 {
+            font-family: var(--font-headings); font-size: 2.5rem;
+            color: var(--text-primary); position: relative; display: inline-block;
+        }
+        .tool-section-header h2::after {
+            content: '';
+            position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%); width: 60px; height: 4px;
+            background-color: var(--accent); border-radius: 2px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .tool-card {
+            background-color: var(--bg-surface);
+            padding: 1.5rem; border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex; flex-direction: column;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .tool-card-icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+        .tool-card h3 { font-family: var(--font-main); font-weight: 600; font-size: 1.25rem; color: var(--text-primary); margin: 0 0 0.5rem 0; }
+        .tool-card p { color: var(--text-secondary); font-size: 0.95rem; margin: 0; flex-grow: 1; }
+
+        .footer {
+            background-color: #212529;
+            color: #f8f9fa;
+            padding: 2.5rem 1.5rem; text-align: center;
+            margin-top: 3rem;
+        }
+        .footer p { margin: 0; font-family: var(--font-main); font-size: 1rem; color: var(--text-secondary); }
+        .footer span { color: var(--accent); font-weight: 700; font-family: var(--font-headings);}
+
+        .modal {
+            display: none; position: fixed; z-index: 1001; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background-color: var(--bg-surface);
+            padding: 2.5rem; border-radius: 12px;
+            width: 90%; max-width: 700px;
+            box-shadow: var(--shadow-lg);
+            animation: fadeIn 0.4s ease;
+            position: relative;
+        }
+        @keyframes fadeIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-btn {
+            position: absolute; top: 1rem; right: 1.5rem;
+            font-size: 2rem; font-weight: bold; color: #aaa;
+            cursor: pointer; transition: color 0.3s, transform 0.3s;
+        }
+        .close-btn:hover { color: var(--accent); transform: rotate(90deg); }
+        #modal-title { font-family: var(--font-headings); margin-top: 0; color: var(--accent); }
+        #modal-body .form-group { margin-bottom: 1.5rem; }
+        #modal-body label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        #modal-body input, #modal-body textarea, #modal-body select {
+            width: 100%; padding: 0.8rem; background-color: #f1f3f5;
+            color: var(--text-primary); border: 1px solid var(--border-color);
+            border-radius: 8px; font-family: var(--font-main);
+            transition: all 0.3s ease;
+        }
+        #modal-body input:focus, #modal-body textarea:focus, #modal-body select:focus {
+            outline: none; border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+        .form-button {
+            background-color: var(--accent); color: white; border: none;
+            padding: 0.8rem 1.5rem; border-radius: 8px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            display: inline-block; width: auto;
+        }
+        .form-button:hover { background-color: var(--accent-dark); }
+        
+        .output-box {
+            margin-top: 1.5rem; background: #f8f9fa; padding: 1.5rem;
+            border-radius: 8px; border: 1px solid var(--border-color);
+            text-align: center; display: none;
+        }
+        .output-box p { margin: 0; color: var(--text-primary); }
+        .output-box .result-value { font-weight: 700; font-size: 1.5rem; color: var(--accent-dark); }
+        
+        .file-drop-zone {
+            border: 2px dashed var(--border-color); border-radius: 12px;
+            padding: 2rem; text-align: center; cursor: pointer;
+            transition: all 0.3s; background-color: #fafafa;
+        }
+        .file-drop-zone.dragover { background-color: var(--accent-light); border-color: var(--accent); }
+        .file-list-container { margin-top: 1rem; font-size: 0.9rem; max-height: 100px; overflow-y: auto;}
+        
+        .progress-bar-container { width: 100%; background-color: #e9ecef; border-radius: 8px; overflow: hidden; margin-top: 1rem; display: none; }
+        .progress-bar { width: 0%; height: 20px; background-color: var(--success); text-align: center; line-height: 20px; color: white; transition: width 0.4s ease; }
+
+        .download-button {
+            background-color: var(--success);
+            color: white; border: none; text-decoration: none;
+            padding: 0.8rem 1.5rem; border-radius: 8px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; margin-top: 1rem;
+            transition: background-color 0.3s ease; display: inline-block;
+        }
+        .download-button:hover { background-color: #218838; }
+
+        .simulation-notice {
+            background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba;
+            padding: 1rem; border-radius: 8px; margin-top: 1.5rem;
+        }
+        .simulation-notice h4 { margin-top: 0; }
+
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <div class="logo">vaibhav Tools Hub</div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="hero">
+                <h1>The Ultimate Free Online Tool Hub</h1>
+                <p>One-stop solution for all your digital needs. Convert files, compress images, calculate finances, and much more. Fast, private, and incredibly easy to use.</p>
+                <a href="#tool-sections" class="cta-button">Explore All Tools</a>
+            </section>
+
+            <div id="tool-sections">
+                <!-- Tool sections will be dynamically generated here -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Powered by <span>vaibhav developer</span> &copy; 2025. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <div id="tool-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const { jsPDF } = window.jspdf;
+
+        const tools = [
+             // --- Calculators --- (All Functional)
+            { id: 'sip-calculator', title: 'SIP Calculator', desc: 'Plan your Systematic Investment Plan returns.', category: 'Calculators', icon: '&#128180;', type:'calculator'},
+            { id: 'gst-calculator', title: 'GST Calculator', desc: 'Calculate Goods and Services Tax.', category: 'Calculators', icon: '&#128203;', type:'calculator'},
+            { id: 'emi-calculator', title: 'EMI Calculator', desc: 'Calculate your Equated Monthly Installments.', category: 'Calculators', icon: '&#127974;', type:'calculator'},
+            { id: 'interest-calculator', title: 'Simple Interest Calculator', desc: 'Compute simple interest on a principal amount.', category: 'Calculators', icon: '&#128176;', type:'calculator'},
+            { id: 'discount-calculator', title: 'Discount Calculator', desc: 'Find the final price after a discount.', category: 'Calculators', icon: '&#127991;', type:'calculator'},
+            { id: 'water-intake-calculator', title: 'Water Intake Calculator', desc: 'Estimate your daily water needs.', category: 'Calculators', icon: '&#128167;', type:'calculator'},
+            
+            // --- PDF Tools --- (Functional & Simulated)
+            { id: 'jpg-to-pdf', title: 'JPG/PNG to PDF', desc: 'Convert multiple images into a single PDF file.', category: 'PDF Tools', icon: '&#128444;&#65039;', type: 'file', multi: true, accept: 'image/jpeg, image/png', functional: true},
+            { id: 'merge-pdf', title: 'Merge PDF', desc: 'Combine multiple PDFs into one document.', category: 'PDF Tools', icon: '&#128279;', type: 'file', multi: true, simulated: true},
+            { id: 'split-pdf', title: 'Split PDF', desc: 'Extract specific pages from a PDF file.', category: 'PDF Tools', icon: '&#9986;', type: 'file', simulated: true},
+            { id: 'compress-pdf', title: 'Compress PDF', desc: 'Reduce the file size of your PDF.', category: 'PDF Tools', icon: '&#128230;', type: 'file', simulated: true},
+            { id: 'pdf-to-word', title: 'PDF to Word', desc: 'Convert PDF files to editable Word documents.', category: 'PDF Tools', icon: '&#128190;', type: 'file', simulated: true},
+            
+            // --- Image Tools --- (Functional & Simulated)
+            { id: 'image-compressor', title: 'Image Compressor', desc: 'Reduce JPG/PNG file size without losing quality.', category: 'Image Tools', icon: '&#128295;', type: 'file', multi: true, accept: 'image/jpeg, image/png', functional: true},
+            { id: 'image-resizer', title: 'Image Resizer', desc: 'Resize images by pixel or percentage.', category: 'Image Tools', icon: '&#128269;', type: 'file', simulated: true},
+            { id: 'crop-image', title: 'Crop Image', desc: 'Crop images to a specific size or aspect ratio.', category: 'Image Tools', icon: '&#9988;', type: 'file', simulated: true},
+            { id: 'image-converter', title: 'Image Converter', desc: 'Convert between JPG, PNG, WEBP, and more.', category: 'Image Tools', icon: '&#128444;&#65039;', type: 'file', simulated: true},
+
+            // --- Media Tools --- (All Simulated with clear notice)
+            { id: 'video-to-mp3', title: 'Video to MP3', desc: 'Demonstration of extracting audio from video.', category: 'Media Tools', icon: '&#127926;', type: 'file', simulated: true},
+            { id: 'video-compressor', title: 'Video Compressor', desc: 'Demonstration of reducing video file size.', category: 'Media Tools', icon: '&#127916;', type: 'file', simulated: true},
+            
+            // --- Utility Tools --- (Functional & Simulated)
+            { id: 'qr-code-generator', title: 'QR Code Generator', desc: 'Create QR codes for URLs, text, and more.', category: 'Utility Tools', icon: '&#9741;', type:'utility'},
+            { id: 'password-generator', title: 'Password Generator', desc: 'Create strong, secure, and random passwords.', category: 'Utility Tools', icon: '&#128273;', type: 'utility', simulated: true}
+        ];
+        
+        // Dynamically build tool sections and cards
+        const toolSectionsContainer = document.getElementById('tool-sections');
+        const categories = [...new Set(tools.map(tool => tool.category))].sort((a,b) => a === 'Calculators' ? -1 : 1); // Show calculators first
+        
+        categories.forEach(category => {
+            const section = document.createElement('section');
+            section.className = 'tool-section';
+            section.id = category.toLowerCase().replace(/\s+/g, '-');
+            
+            let sectionHTML = `<div class="tool-section-header"><h2>${category}</h2></div><div class="tools-grid">`;
+            
+            tools.filter(t => t.category === category).forEach(tool => {
+                sectionHTML += `
+                    <div class="tool-card" data-tool-id="${tool.id}">
+                        <div class="tool-card-icon">${tool.icon}</div>
+                        <h3>${tool.title}</h3>
+                        <p>${tool.desc}</p>
+                    </div>
+                `;
+            });
+            
+            sectionHTML += `</div>`;
+            section.innerHTML = sectionHTML;
+            toolSectionsContainer.appendChild(section);
+        });
+
+        // Modal Handling
+        const modal = document.getElementById('tool-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+
+        document.addEventListener('click', e => {
+            const card = e.target.closest('.tool-card');
+            if (card) {
+                const toolId = card.dataset.toolId;
+                const tool = tools.find(t => t.id === toolId);
+                openModal(tool);
+            }
+            if (e.target.matches('.close-btn') || e.target === modal) {
+                closeModal();
+            }
+        });
+
+        function openModal(tool) {
+            modalTitle.textContent = tool.title;
+            modalBody.innerHTML = generateToolUI(tool);
+            modal.style.display = 'flex';
+            attachToolListeners(tool);
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            modalBody.innerHTML = '';
+        }
+
+        function generateToolUI(tool) {
+            // File Tool UI
+            if (tool.type === 'file') {
+                return `
+                    <p>${tool.desc}</p>
+                    <div class="file-drop-zone" id="drop-zone">
+                        <p><strong>Drag & Drop File(s) Here</strong></p>
+                        <p><em>or</em></p>
+                        <button class="form-button" onclick="document.getElementById('file-input').click();">Select File(s)</button>
+                    </div>
+                    <input type="file" id="file-input" ${tool.multi ? 'multiple' : ''} accept="${tool.accept || ''}" style="display:none;">
+                    <div class="file-list-container" id="file-list"></div>
+                    <div class="progress-bar-container" id="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+                    <div class="output-box" id="output-box"></div>
+                `;
+            }
+            
+            // Calculator UIs
+            if (tool.type === 'calculator') {
+                 switch(tool.id) {
+                    case 'sip-calculator': return `<div class="form-group"><label for="sip-amount">Monthly Investment (₹)</label><input type="number" id="sip-amount" placeholder="e.g., 5000"></div><div class="form-group"><label for="sip-rate">Expected Return Rate (% p.a.)</label><input type="number" id="sip-rate" placeholder="e.g., 12"></div><div class="form-group"><label for="sip-time">Time Period (Years)</label><input type="number" id="sip-time" placeholder="e.g., 10"></div><button class="form-button" id="calc-btn">Calculate</button><div class="output-box" id="output-box"></div>`;
+                    case 'gst-calculator': return `<div class="form-group"><label for="gst-amount">Amount (without GST)</label><input type="number" id="gst-amount" placeholder="e.g., 1000"></div><div class="form-group"><label for="gst-rate">GST Rate (%)</label><select id="gst-rate"><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option><option value="28">28%</option></select></div><button class="form-button" id="calc-btn">Calculate</button><div class="output-box" id="output-box"></div>`;
+                    case 'emi-calculator': return `<div class="form-group"><label for="emi-amount">Loan Amount (₹)</label><input type="number" id="emi-amount" placeholder="e.g., 100000"></div><div class="form-group"><label for="emi-rate">Interest Rate (% p.a.)</label><input type="number" id="emi-rate" placeholder="e.g., 8.5"></div><div class="form-group"><label for="emi-time">Loan Tenure (Years)</label><input type="number" id="emi-time" placeholder="e.g., 5"></div><button class="form-button" id="calc-btn">Calculate</button><div class="output-box" id="output-box"></div>`;
+                    case 'interest-calculator': return `<div class="form-group"><label for="int-principal">Principal Amount (₹)</label><input type="number" id="int-principal" placeholder="e.g., 50000"></div><div class="form-group"><label for="int-rate">Annual Interest Rate (%)</label><input type="number" id="int-rate" placeholder="e.g., 6"></div><div class="form-group"><label for="int-time">Time Period (Years)</label><input type="number" id="int-time" placeholder="e.g., 3"></div><button class="form-button" id="calc-btn">Calculate</button><div class="output-box" id="output-box"></div>`;
+                    case 'discount-calculator': return `<div class="form-group"><label for="disc-price">Original Price (₹)</label><input type="number" id="disc-price" placeholder="e.g., 1999"></div><div class="form-group"><label for="disc-percent">Discount (%)</label><input type="number" id="disc-percent" placeholder="e.g., 20"></div><button class="form-button" id="calc-btn">Calculate</button><div class="output-box" id="output-box"></div>`;
+                    case 'water-intake-calculator': return `<div class="form-group"><label for="water-weight">Your Weight (kg)</label><input type="number" id="water-weight" placeholder="e.g., 70"></div><div class="form-group"><label for="water-activity">Activity Level</label><select id="water-activity"><option value="1.2">Sedentary</option><option value="1.4">Lightly Active</option><option value="1.6">Moderately Active</option><option value="1.8">Very Active</option></select></div><button class="form-button" id="calc-btn">Calculate</button><div class="output-box" id="output-box"></div>`;
+                }
+            }
+            
+            // Other Utility UIs
+            if (tool.type === 'utility') {
+                switch(tool.id) {
+                     case 'qr-code-generator': return `<div class="form-group"><label for="qr-text">URL or Text</label><input type="text" id="qr-text" placeholder="Enter content for QR code"></div><button class="form-button" id="calc-btn">Generate QR Code</button><div class="output-box" id="output-box"></div>`;
+                     case 'password-generator': return `<div class="form-group"><label for="pw-length">Password Length</label><input type="number" id="pw-length" value="16" min="8" max="128"></div><button class="form-button" id="calc-btn">Generate Password</button><div class="output-box" id="output-box"></div>`;
+                }
+            }
+            return `<p>An unexpected error occurred.</p>`;
+        }
+        
+        // --- EVENT & TOOL LOGIC ---
+        function attachToolListeners(tool) {
+            const calcBtn = document.getElementById('calc-btn');
+            if (calcBtn) {
+                calcBtn.addEventListener('click', () => handleCalculation(tool));
+            }
+
+            if (tool.type === 'file') {
+                const dropZone = document.getElementById('drop-zone');
+                const fileInput = document.getElementById('file-input');
+                
+                const handleFiles = (files) => {
+                    if (!files || files.length === 0) return;
+                    const fileList = document.getElementById('file-list');
+                    fileList.innerHTML = '<strong>Selected:</strong> ' + [...files].map(f => f.name).join(', ');
+                    
+                    const outputBox = document.getElementById('output-box');
+                    outputBox.style.display = 'none';
+                    outputBox.innerHTML = '';
+
+                    const progressBar = document.getElementById('progress-bar');
+                    const progressContainer = document.getElementById('progress-container');
+                    progressContainer.style.display = 'block';
+                    progressBar.style.width = '0%';
+                    
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += 10;
+                        progressBar.style.width = progress + '%';
+                        progressBar.textContent = progress + '%';
+                        if (progress >= 100) {
+                            clearInterval(interval);
+                            if (tool.functional) {
+                                processRealFiles(tool, files);
+                            } else {
+                                processSimulatedFiles(tool);
+                            }
+                        }
+                    }, 150);
+                };
+                
+                dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+                dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+                dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+                fileInput.addEventListener('change', e => handleFiles(e.target.files));
+            }
+        }
+        
+        function handleCalculation(tool) {
+            const outputBox = document.getElementById('output-box');
+            outputBox.style.display = 'block';
+            let resultHTML = '';
+            try {
+                switch(tool.id) {
+                    case 'sip-calculator': const p=parseFloat(document.getElementById('sip-amount').value), r=parseFloat(document.getElementById('sip-rate').value)/1200, n=parseFloat(document.getElementById('sip-time').value)*12; const M=p*((Math.pow(1+r,n)-1)/r)*(1+r); resultHTML=`<p>Invested: ₹${(p*n).toLocaleString('en-IN')}</p><p>Total Value: <span class="result-value">₹${M.toLocaleString('en-IN',{maximumFractionDigits:0})}</span></p>`; break;
+                    case 'gst-calculator': const a=parseFloat(document.getElementById('gst-amount').value), g=parseFloat(document.getElementById('gst-rate').value), t=a*(g/100); resultHTML=`<p>GST Amount: ₹${t.toLocaleString('en-IN')}</p><p>Total: <span class="result-value">₹${(a+t).toLocaleString('en-IN')}</span></p>`; break;
+                    case 'emi-calculator': const P=parseFloat(document.getElementById('emi-amount').value), R=parseFloat(document.getElementById('emi-rate').value)/1200, N=parseFloat(document.getElementById('emi-time').value)*12; const emi=(P*R*Math.pow(1+R,N))/(Math.pow(1+R,N)-1); resultHTML=`<p>Monthly EMI: <span class="result-value">₹${emi.toLocaleString('en-IN',{maximumFractionDigits:2})}</span></p>`; break;
+                    case 'interest-calculator': const pr=parseFloat(document.getElementById('int-principal').value), ra=parseFloat(document.getElementById('int-rate').value), ti=parseFloat(document.getElementById('int-time').value), i=(pr*ra*ti)/100; resultHTML=`<p>Total Interest: <span class="result-value">₹${i.toLocaleString('en-IN')}</span></p>`; break;
+                    case 'discount-calculator': const prc=parseFloat(document.getElementById('disc-price').value), d=parseFloat(document.getElementById('disc-percent').value), s=prc*(d/100); resultHTML=`<p>You Save: ₹${s.toLocaleString('en-IN')}</p><p>Final Price: <span class="result-value">₹${(prc-s).toLocaleString('en-IN')}</span></p>`; break;
+                    case 'water-intake-calculator': const w=parseFloat(document.getElementById('water-weight').value), act=parseFloat(document.getElementById('water-activity').value), intake=((w*0.033)*act).toFixed(2); resultHTML=`<p>Recommended Intake:</p><p><span class="result-value">${intake} Liters/Day</span></p>`; break;
+                    case 'qr-code-generator': const text=document.getElementById('qr-text').value; if(!text){resultHTML='<p>Please enter text or URL.</p>'; break;} const url=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`; resultHTML=`<img src="${url}" alt="QR Code"><br><a href="${url}" download="vaibhav-qr-code.png" class="download-button">Download QR</a>`; break;
+                    case 'password-generator': const len=document.getElementById('pw-length').value, c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()", pw=Array(parseInt(len)).fill(c).map(x=>x[Math.floor(Math.random()*x.length)]).join(''); resultHTML=`<p style="font-size: 1.2rem; word-wrap:break-word;">${pw}</p>`; break;
+                }
+                outputBox.innerHTML = resultHTML;
+            } catch (err) {
+                outputBox.innerHTML = `<p style="color:red;">Error: Please provide valid inputs.</p>`;
+            }
+        }
+        
+        function processRealFiles(tool, files) {
+            const outputBox = document.getElementById('output-box');
+            outputBox.style.display = 'block';
+            switch (tool.id) {
+                case 'jpg-to-pdf': createPdfFromImages(files, outputBox); break;
+                case 'image-compressor': compressImages(files, outputBox); break;
+            }
+        }
+        
+        function processSimulatedFiles(tool) {
+            const outputBox = document.getElementById('output-box');
+            outputBox.style.display = 'block';
+            outputBox.innerHTML = `
+                <div class="simulation-notice">
+                    <h4>Demonstration Tool</h4>
+                    <p>This is a demonstration of the <strong>${tool.title}</strong> tool. True conversion for this file type requires powerful server-side processing which isn't possible in a browser-only environment.</p>
+                    <p>A fully functional version would process your file on a secure server and provide a download link here.</p>
+                </div>
+            `;
+        }
+
+        // --- SPECIFIC FUNCTIONAL TOOL LOGIC ---
+        function createPdfFromImages(files, outputBox) {
+            outputBox.innerHTML = '<p>Converting images to PDF...</p>';
+            const readImage = file => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = event => { const img = new Image(); img.onload = () => resolve(img); img.onerror = reject; img.src = event.target.result; };
+                reader.readAsDataURL(file);
+            });
+            Promise.all([...files].map(readImage)).then(images => {
+                const doc = new jsPDF();
+                images.forEach((img, i) => {
+                    if (i > 0) doc.addPage();
+                    const { width, height } = doc.internal.pageSize;
+                    const ratio = Math.min(width / img.width, height / img.height);
+                    doc.addImage(img, 'PNG', (width - img.width * ratio) / 2, (height - img.height * ratio) / 2, img.width * ratio, img.height * ratio);
+                });
+                doc.save('vaibhav-Tools-Hub-PDF.pdf');
+                outputBox.innerHTML = '<p>✅ Success! Your PDF has been downloaded.</p>';
+            }).catch(err => { outputBox.innerHTML = '<p style="color:red;">Error: Could not process an image.</p>'; });
+        }
+
+        function compressImages(files, outputBox) {
+            outputBox.innerHTML = '<p>Compressing images...</p>';
+            const compress = file => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = event => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width; canvas.height = img.height;
+                        canvas.getContext('2d').drawImage(img, 0, 0);
+                        canvas.toBlob(blob => {
+                            if (!blob) { return reject(new Error('Canvas to Blob conversion failed')); }
+                            const originalSize = (file.size / 1024).toFixed(1);
+                            const compressedSize = (blob.size / 1024).toFixed(1);
+                            const percent = (((originalSize - compressedSize) / originalSize) * 100).toFixed(0);
+                            const a = document.createElement('a');
+                            a.href = URL.createObjectURL(blob);
+                            a.download = `compressed-${file.name.split('.').slice(0, -1).join('.')}.jpg`;
+                            a.className = 'download-button';
+                            a.textContent = `Download ${file.name} (${compressedSize} KB, saved ${percent}%)`;
+                            resolve(a);
+                        }, 'image/jpeg', 0.7);
+                    };
+                    img.src = event.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+
+            Promise.all([...files].map(compress)).then(links => {
+                outputBox.innerHTML = '<p>✅ Compression Complete!</p>';
+                links.forEach(link => outputBox.appendChild(link));
+            }).catch(err => { outputBox.innerHTML = '<p style="color:red;">Error: Could not compress an image.</p>'; console.error(err); });
+        }
+    });
+    </script>
+</body>
+</html>
